@@ -76,4 +76,4 @@ class Decoder(nn.Module):
         x = self.upsample_x2(x)       # UL2
         x = self.d3(x)                # Aplica D3 (Saída não tem ReLU)
         
-        return x
+        return torch.sigmoid(x)

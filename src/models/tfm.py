@@ -56,4 +56,4 @@ class TFM(nn.Module):
         # Retorna ao formato original do batch: Shape (B, C_out, H, W)
         out = out.view(B, C_out, H, W)
         
-        return self.relu(out)
+        return out
