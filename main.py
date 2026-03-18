@@ -8,8 +8,8 @@ from src.models.lccstyle import LCCStyleNet
 from src.utils.dataset import StyleTransferDataset
 from src.train import LCCStyleTrainer
 from src.inference import run_inference
-# Opcional: importa a bateria de testes
-from test import run_all_tests
+
+from src.test import run_all_tests
 
 def print_banner():
     """Imprime um banner profissional no terminal."""
@@ -43,11 +43,11 @@ Exemplos de Uso:
     # ==========================================
     train_group = parser.add_argument_group('Configurações de Treinamento')
     train_group.add_argument('--content_dir', type=str, default='data/content', help="Pasta com as fotos reais (Ex: MS COCO).")
-    train_group.add_argument('--style_dir', type=str, default='data/style', help="Pasta com os frames de Evangelion.")
+    train_group.add_argument('--style_dir', type=str, default='data/style', help="Pasta com os frames de Evangelion, todos os rebuilds e o anime de 1995.")
     train_group.add_argument('--weights_dir', type=str, default='data/weights', help="Pasta para salvar os pesos (best_lccstyle.pth).")
     train_group.add_argument('--epochs', type=int, default=10, help="Número total de épocas.")
     train_group.add_argument('--batch_size', type=int, default=4, help="Tamanho do batch.")
-    train_group.add_argument('--lr', type=float, default=0.0001, help="Taxa de aprendizado (Artigo especifica 1e-4).")
+    train_group.add_argument('--lr', type=float, default=0.0001, help="Taxa de aprendizado (Artigo LCCStyle especifica 1e-4).")
     
     # Pesos das funções de perda (Losses)
     train_group.add_argument('--w_content', type=float, default=1.0, help="Peso da Perda de Conteúdo.")

@@ -19,15 +19,15 @@ class ContentEncoder(nn.Module):
         super(ContentEncoder, self).__init__()
 
         # Camada 1: Conv2d_3_32_1 (Kernel 3, Out 32, Stride 1) 
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1)
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1, padding_mode='reflect')
         self.in1 = nn.InstanceNorm2d(32)
 
         # Camada 2: Conv2d_3_64_2 (Kernel 3, Out 64, Stride 2) 
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=2, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=2, padding=1, padding_mode='reflect')
         self.in2 = nn.InstanceNorm2d(64)
 
         # Camada 3: Conv2d_3_128_2 (Kernel 3, Out 128, Stride 2) 
-        self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1)
+        self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1, padding_mode='reflect')
         self.in3 = nn.InstanceNorm2d(128)
 
         self.relu = nn.ReLU(inplace=True)

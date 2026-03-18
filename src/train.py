@@ -40,6 +40,10 @@ class LCCStyleTrainer:
         self.save_dir = save_dir
         os.makedirs(self.save_dir, exist_ok=True)
 
+        if torch.cuda.device_count() > 1:
+            print(f"🚀 Turbinando o treinamento: Usando {torch.cuda.device_count()} GPUs simultâneas!")
+            self.model = torch.nn.DataParallel(self.model)
+
         # Configuração da Rede de Perdas (A VGG19 atua como juíza, não é treinada)
         self.loss_net = LossNetwork().to(self.device)
         self.loss_net.eval() # Sempre em modo de avaliação
@@ -121,7 +125,8 @@ class LCCStyleTrainer:
                 print(f"🌟 Novo recorde! Loss caiu de {best_loss:.4f} para {avg_loss:.4f}. Salvando pesos...")
                 best_loss = avg_loss
                 # Salva (ou sobrescreve) o arquivo com os melhores pesos até agora
-                torch.save(self.model.state_dict(), best_model_path)
+                model_to_save = self.model.module if isinstance(self.model, torch.nn.DataParallel) else self.model
+                torch.save(model_to_save.state_dict(), best_model_path)
             
         print("="*50)
         print(f"Treinamento finalizado! O seu melhor modelo de Evangelion está salvo em:")

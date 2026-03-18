@@ -36,13 +36,8 @@ def save_image_cv2(tensor: torch.Tensor, output_path: str):
     # 1. Remove a dimensão do Batch e move para a CPU (se estiver na GPU)
     img_tensor = tensor.detach().cpu().squeeze(0)
     
-    """
-    
-    # 2. Normalização Min-Max (conforme artigo LCCStyle) para evitar cortes de cor
-    f_min = img_tensor.min()
-    f_max = img_tensor.max()
-    img_tensor = (img_tensor - f_min) / (f_max - f_min + 1e-5)
-    """
+    # 2. Normalização via image Clamp
+    img_tensor = torch.clamp(img_tensor, 0.0, 1.0)
 
     # 3. Converte de Tensor para NumPy Array e ajusta as dimensões
     # De [C, H, W] de volta para [H, W, C]

@@ -23,15 +23,15 @@ class Decoder(nn.Module):
         
         # Camada D1: Processa o nível mais profundo (recebe do TFM1)
         # Conv2d_3_64_1 (Kernel 3, Out 64, Stride 1)
-        self.d1 = nn.Conv2d(128, 64, kernel_size=3, stride=1, padding=1)
+        self.d1 = nn.Conv2d(128, 64, kernel_size=3, stride=1, padding=1, padding_mode='reflect')
         
         # Camada D2: Processa o nível intermediário (recebe do TFM2 + UL1)
         # Conv2d_3_32_1 (Kernel 3, Out 32, Stride 1)
-        self.d2 = nn.Conv2d(64, 32, kernel_size=3, stride=1, padding=1)
+        self.d2 = nn.Conv2d(64, 32, kernel_size=3, stride=1, padding=1, padding_mode='reflect')
         
         # Camada D3: Camada final de reconstrução RGB
         # Conv2d_3_3_1 (Kernel 3, Out 3, Stride 1)
-        self.d3 = nn.Conv2d(32, 3, kernel_size=3, stride=1, padding=1)
+        self.d3 = nn.Conv2d(32, 3, kernel_size=3, stride=1, padding=1, padding_mode='reflect')
 
         self.relu = nn.ReLU(inplace=True)
 
@@ -76,4 +76,4 @@ class Decoder(nn.Module):
         x = self.upsample_x2(x)       # UL2
         x = self.d3(x)                # Aplica D3 (Saída não tem ReLU)
         
-        return torch.sigmoid(x)
+        return x

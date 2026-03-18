@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.models import vgg19, VGG19_Weights
 
+from ..utils.gram import calc_gram_matrix
+
 class LossNetwork(nn.Module):
     """
     Rede VGG19 estática para cálculo de Perceptual e Style Loss.
@@ -56,16 +58,14 @@ class LCCLoss(nn.Module):
     def calc_content_loss(self, gen_feat: torch.Tensor, cont_feat: torch.Tensor) -> torch.Tensor:
         """Calcula a perda de conteúdo (MSE) na camada relu3_4."""
         return F.mse_loss(gen_feat, cont_feat)
-
+    
     def _calc_mean_std(self, feat: torch.Tensor, eps: float = 1e-5):
-        """Função auxiliar para calcular a média e o desvio padrão de um mapa de características."""
+        """Calcula a média e o desvio padrão (Estatísticas AdaIN)."""
         B, C, H, W = feat.size()
         feat_view = feat.view(B, C, -1)
-        
         feat_mean = feat_view.mean(dim=2)
         feat_var = feat_view.var(dim=2) + eps
         feat_std = feat_var.sqrt()
-        
         return feat_mean, feat_std
 
     def calc_style_loss(self, gen_feats: tuple, style_feats: tuple) -> torch.Tensor:

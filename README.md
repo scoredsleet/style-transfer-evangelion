@@ -20,3 +20,18 @@ Instale as dependências executando:
 \`\`\`bash
 pip install -r requirements.txt
 \`\`\`
+
+# Entra na pasta do código
+%cd /kaggle/working/1/
+
+# Treinamento com a Matemática de Gram e foco em Anime
+!python main.py --mode train \
+    --epochs 20 \
+    --batch_size 4 \
+    --w_content 1.2 \
+    --w_style 7.0 \
+    --w_dist 0.02 \
+    --lr 0.0001 \
+    --content_dir "/kaggle/input/datasets/scoredsleet/evangelion-style-data/data/content" \
+    --style_dir "/kaggle/input/datasets/scoredsleet/evangelion-style-data/data/style" \
+    --weights_dir "/kaggle/working/pesos_salvos_gram"
